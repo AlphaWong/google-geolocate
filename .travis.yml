@@ -3,12 +3,11 @@ language: go
 go:
   - 1.7
   - 1.8
+  - 1.9
   - tip
 
 before_install:
   - go get github.com/stretchr/testify/assert
-  - go get github.com/onsi/gomega
-  - go get github.com/onsi/ginkgo
   - go get golang.org/x/tools/cmd/cover
 
 script:
