@@ -1,5 +1,7 @@
-# About
+[![Build Status](https://travis-ci.org/AlphaWong/google-geolocate.svg?branch=master)](https://travis-ci.org/AlphaWong/google-geolocate)
+[![codecov](https://codecov.io/gh/AlphaWong/google-geolocate/branch/master/graph/badge.svg)](https://codecov.io/gh/AlphaWong/google-geolocate)
 
+# About
 Golang client for the Google Maps Geocode API
 
 https://developers.google.com/maps/documentation/geocoding/intro
