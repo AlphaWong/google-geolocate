@@ -11,7 +11,7 @@ https://developers.google.com/maps/documentation/geocoding/intro
 ```go
 import geo "github.com/Alphawong/google-geolocate"
 
-ll := GetGeoCode(getTestingApiKey(), "HKIVETY", "HK")
+ll := geo.GetGeoCode(getTestingApiKey(), "HKIVETY", "HK")
 ```
 
 ## Geocode

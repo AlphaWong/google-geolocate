@@ -1,10 +1,9 @@
 package geolocate
 
 import (
-	"testing"
-
 	"log"
 	"os"
+	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
