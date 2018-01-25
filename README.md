@@ -10,11 +10,23 @@ https://developers.google.com/maps/documentation/geocoding/intro
 ## Usage
 ```go
 import geo "github.com/Alphawong/google-geolocate"
-
+// Slower
 ll := geo.GetGeoCode(getTestingApiKey(), "HKIVETY", "HK")
+
+// Faster
+g := geo.NewGMapInstance(getTestingApiKey())
+ll, _ := geo.GetGeoCode("HKIVETY", "HK")
 ```
 
-## Geocode
+## Geocode ( Faster )
+```go
+g := geo.NewGMapInstance(getTestingApiKey())
+ll, _ := geo.GetGeoCode("HKIVETY", "HK")
+fmt.Println(ll)
+// Output: {22.342422 114.106242}
+```
+
+## Geocode ( Slower )
 ```go
 ll := GetGeoCode(getTestingApiKey(), "HKIVETY", "HK")
 fmt.Println(ll)
