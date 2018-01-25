@@ -44,3 +44,10 @@ func TestPassGetGeoCodeViaNewGMapInstanceInUS(t *testing.T) {
 	assert.Equal(t, "37.422000", ll.Lat)
 	assert.Equal(t, "-122.084058", ll.Lng)
 }
+
+func TestFailSetGMapKeyViaNewGMapInstance(t *testing.T) {
+	t.Parallel()
+	g := NewGMapInstance(getTestingApiKey())
+	err := g.SetGMapKey("")
+	assert.Equal(t, "MISSING_API_KEY", err.Error())
+}
