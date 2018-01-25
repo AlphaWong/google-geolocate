@@ -9,15 +9,6 @@ import (
 	"time"
 )
 
-func PrepareGMapParam(a, k, r string) url.Values {
-	u := make(url.Values, 3)
-	u.Set("sensor", "false")
-	u.Set("address", a)
-	u.Set("key", k)
-	u.Set("region", r)
-	return u
-}
-
 const (
 	// Reference "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&"
 	BaseURL = "https://maps.googleapis.com/maps/api/geocode/json"
@@ -29,12 +20,83 @@ var (
 	h = &http.Client{Timeout: time.Second * 10}
 )
 
+type GMap struct {
+	apiKey     string
+	httpClient *http.Client
+	baseValues url.Values
+	baseURl    *url.URL
+}
+
+var GMapInstance *GMap
+
+func PreGMapParam(k string) url.Values {
+	v := make(url.Values, 4)
+	v.Set("sensor", "false")
+	v.Set("key", k)
+	return v
+}
+
+func NewGMapInstance(k string) *GMap {
+	if nil == GMapInstance {
+		baseUri, _ := url.Parse(BaseURL)
+		GMapInstance = &GMap{
+			apiKey:     k,
+			httpClient: &http.Client{Timeout: time.Second * 10},
+			baseValues: PreGMapParam(k),
+			baseURl:    baseUri,
+		}
+	}
+	return GMapInstance
+}
+
+func (g *GMap) SetGMapKey(k string) error {
+	if k == "" {
+		return errors.New("MISSING_API_KEY")
+	}
+	g.apiKey = k
+	return nil
+}
+
+func PrepareGMapAddressWithRegionParams(v url.Values, addr, reg string) url.Values {
+	v.Set("address", addr)
+	v.Set("region", reg)
+	return v
+}
+
+func (g *GMap) GetGeoCode(addr, reg string) (ll LatLng, err error) {
+	v := PrepareGMapAddressWithRegionParams(g.baseValues, addr, reg)
+	g.baseURl.RawQuery = ""
+	g.baseURl.RawQuery = v.Encode()
+
+	resp, err := g.httpClient.Get(g.baseURl.String())
+	if nil != err {
+		return ll, err
+	}
+
+	var gcr GeoCodeResponse
+	err = DecodeGeoCodeResponse(resp, &gcr)
+	if nil != err {
+		return ll, err
+	}
+
+	return GetLatLng(&gcr), nil
+}
+
 func SetApiKey(key string) error {
 	if key != "" {
 		ApiKey = key
 		return nil
 	}
 	return errors.New("MISSING_API_KEY")
+}
+
+func PrepareGMapParam(a, k, r string) url.Values {
+	v := make(url.Values, 4)
+	v.Set("sensor", "false")
+	v.Set("key", k)
+	v.Set("region", r)
+	v.Set("address", a)
+	return v
 }
 
 func SendGeoCodeRequest(a, r string) (*http.Response, error) {
@@ -47,15 +109,16 @@ func SendGeoCodeRequest(a, r string) (*http.Response, error) {
 func DecodeGeoCodeResponse(r *http.Response, t interface{}) error {
 	d := json.NewDecoder(r.Body)
 	err := d.Decode(&t)
+	defer r.Body.Close()
 	if nil != err {
 		return err
 	}
 	return nil
 }
 
-func GetLatLng(gcp *GeoCodeResponse) (ll LatLng) {
-	ll.Lat = FloatToString(gcp.Results[0].Geometry.Location.Lat)
-	ll.Lng = FloatToString(gcp.Results[0].Geometry.Location.Lng)
+func GetLatLng(gcr *GeoCodeResponse) (ll LatLng) {
+	ll.Lat = FloatToString(gcr.Results[0].Geometry.Location.Lat)
+	ll.Lng = FloatToString(gcr.Results[0].Geometry.Location.Lng)
 	return
 }
 
@@ -68,15 +131,15 @@ func GetGeoCode(k, a, r string) (ll LatLng, err error) {
 		return ll, err
 	}
 
-	var gcp GeoCodeResponse
+	var gcr GeoCodeResponse
 	resp, err := SendGeoCodeRequest(a, r)
 	if nil != err {
 		return ll, err
 	}
-	DecodeGeoCodeResponse(resp, &gcp)
-	if gcp.Status != "OK" {
-		return ll, errors.New(gcp.Status)
+	DecodeGeoCodeResponse(resp, &gcr)
+	if gcr.Status != "OK" {
+		return ll, errors.New(gcr.Status)
 	}
-	ll = GetLatLng(&gcp)
+	ll = GetLatLng(&gcr)
 	return
 }

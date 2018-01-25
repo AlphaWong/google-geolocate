@@ -12,8 +12,18 @@ func NewGoogleMapInstance() {
 	geo.GetGeoCode("", "a", "r")
 }
 
+func NewGMapInstance() {
+	geo.NewGMapInstance("")
+}
+
 func BenchmarkGoogleMapInstance(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		NewGoogleMapInstance()
+	}
+}
+
+func BenchmarkNewGMapInstance(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		NewGMapInstance()
 	}
 }

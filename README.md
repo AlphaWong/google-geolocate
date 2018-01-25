@@ -22,9 +22,11 @@ fmt.Println(ll)
 ```
 
 ## Benchmark
-run `MAP_KEY=<GOOGLE_MAP_KEY> go test -run=-run=BenchmarkGoogleMapInstance -benchmem -cpuprofile cpu.prof -memprofile mem.prof -bench=.`
+run `MAP_KEY=<GOOGLE_MAP_KEY> go test -run=-run=Benchmark -benchmem -cpuprofile cpu.prof -memprofile mem.prof -bench=.`
 ```
-BenchmarkGoogleMapInstance-4    30000000                39.3 ns/op            16 B/op          1 allocs/op
+BenchmarkGoogleMapInstance-4    30000000                40.7 ns/op            16 B/op          1 allocs/op
+BenchmarkNewGMapInstance-4      500000000                3.79 ns/op            0 B/op          0 allocs/op
+
 ```
 
 ### License

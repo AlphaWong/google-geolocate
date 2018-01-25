@@ -28,3 +28,19 @@ func TestFailGetGeoCode(t *testing.T) {
 	assert.Equal(t, "", ll.Lng)
 	assert.Equal(t, "ZERO_RESULTS", err.Error())
 }
+
+func TestPassGetGeoCodeViaNewGMapInstance(t *testing.T) {
+	t.Parallel()
+	g := NewGMapInstance(getTestingApiKey())
+	ll, _ := g.GetGeoCode("HKIVETY", "HK")
+	assert.Equal(t, "22.342422", ll.Lat)
+	assert.Equal(t, "114.106242", ll.Lng)
+}
+
+func TestPassGetGeoCodeViaNewGMapInstanceInUS(t *testing.T) {
+	t.Parallel()
+	g := NewGMapInstance(getTestingApiKey())
+	ll, _ := g.GetGeoCode("googleplex", "US")
+	assert.Equal(t, "37.422000", ll.Lat)
+	assert.Equal(t, "-122.084058", ll.Lng)
+}
