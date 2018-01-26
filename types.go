@@ -1,5 +1,7 @@
 package geolocate
 
+import "encoding/json"
+
 // GeoCodeResponse is the response from google geocode
 // Generate from https://mholt.github.io/json-to-go/
 type (
@@ -13,8 +15,8 @@ type (
 			FormattedAddress string `json:"formatted_address"`
 			Geometry         struct {
 				Location struct {
-					Lat float64 `json:"lat"`
-					Lng float64 `json:"lng"`
+					Lat json.Number `json:"lat"`
+					Lng json.Number `json:"lng"`
 				} `json:"location"`
 				LocationType string `json:"location_type"`
 				Viewport     struct {

@@ -21,15 +21,15 @@ func TestPassGetGeoCodeViaNewGMapInstance(t *testing.T) {
 	g := NewGMapInstance(getTestingApiKey())
 	ll, _ := g.GetGeoCode("HKIVETY", "HK")
 	assert.Equal(t, "22.342422", ll.Lat)
-	assert.Equal(t, "114.106242", ll.Lng)
+	assert.Equal(t, "114.1062419", ll.Lng)
 }
 
 func TestPassGetGeoCodeViaNewGMapInstanceInUS(t *testing.T) {
 	t.Parallel()
 	g := NewGMapInstance(getTestingApiKey())
 	ll, _ := g.GetGeoCode("googleplex", "US")
-	assert.Equal(t, "37.422000", ll.Lat)
-	assert.Equal(t, "-122.084058", ll.Lng)
+	assert.Equal(t, "37.4219999", ll.Lat)
+	assert.Equal(t, "-122.0840575", ll.Lng)
 }
 
 func TestFailSetGMapKeyViaNewGMapInstance(t *testing.T) {

@@ -5,7 +5,6 @@ import (
 	"errors"
 	"net/http"
 	"net/url"
-	"strconv"
 	"time"
 )
 
@@ -87,11 +86,7 @@ func DecodeGeoCodeResponse(r *http.Response, t interface{}) error {
 }
 
 func GetLatLng(gcr *GeoCodeResponse) (ll LatLng) {
-	ll.Lat = FloatToString(gcr.Results[0].Geometry.Location.Lat)
-	ll.Lng = FloatToString(gcr.Results[0].Geometry.Location.Lng)
+	ll.Lat = gcr.Results[0].Geometry.Location.Lat.String()
+	ll.Lng = gcr.Results[0].Geometry.Location.Lng.String()
 	return
-}
-
-func FloatToString(f float64) string {
-	return strconv.FormatFloat(f, 'f', 6, 64)
 }
