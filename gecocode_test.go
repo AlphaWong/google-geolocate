@@ -32,6 +32,15 @@ func TestPassGetGeoCodeViaNewGMapInstanceInUS(t *testing.T) {
 	assert.Equal(t, "-122.0840575", ll.Lng)
 }
 
+// This library will always return the first result even the address is ambiguous.
+func TestPassGetGeoCodeViaNewGMapInstanceInUSWithAmbiguousAddress(t *testing.T) {
+	t.Parallel()
+	g := NewGMapInstance(getTestingApiKey())
+	ll, _ := g.GetGeoCode("building", "US")
+	assert.Equal(t, "37.5292712", ll.Lat)
+	assert.Equal(t, "-95.6216764", ll.Lng)
+}
+
 func TestFailSetGMapKeyViaNewGMapInstance(t *testing.T) {
 	t.Parallel()
 	g := NewGMapInstance(getTestingApiKey())
