@@ -6,10 +6,6 @@ Golang client for the Google Maps Geocode API
 
 https://developers.google.com/maps/documentation/geocoding/intro
 
-## Test
-```sh
-MAP_KEY=<GOOGLE_MAP_KEY> go test -short .
-```
 
 ## Usage
 ```go
@@ -28,7 +24,7 @@ fmt.Println(ll)
 ```
 
 ## Benchmark
-run `MAP_KEY=<GOOGLE_MAP_KEY> go test -run=Benchmark -benchmem -cpuprofile cpu.prof -memprofile mem.prof -bench=.`
+run `MAP_KEY=<GOOGLE_MAP_KEY> go test -run=-run=Benchmark -benchmem -cpuprofile cpu.prof -memprofile mem.prof -bench=.`
 ```
 BenchmarkNewGMapInstance-4      500000000                3.79 ns/op            0 B/op          0 allocs/op
 ```

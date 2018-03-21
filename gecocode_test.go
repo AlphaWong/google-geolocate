@@ -18,7 +18,7 @@ func getTestingApiKey() string {
 
 func TestPassGetGeoCodeViaNewGMapInstance(t *testing.T) {
 	t.Parallel()
-	g := NewGMapInstance(getTestingApiKey())
+	g := NewGMapInstance(WithGMapKey(getTestingApiKey()))
 	ll, _ := g.GetGeoCode("HKIVETY", "HK")
 	assert.Equal(t, "22.342422", ll.Lat)
 	assert.Equal(t, "114.1062419", ll.Lng)
@@ -26,7 +26,7 @@ func TestPassGetGeoCodeViaNewGMapInstance(t *testing.T) {
 
 func TestPassGetGeoCodeViaNewGMapInstanceInUS(t *testing.T) {
 	t.Parallel()
-	g := NewGMapInstance(getTestingApiKey())
+	g := NewGMapInstance(WithGMapKey(getTestingApiKey()))
 	ll, _ := g.GetGeoCode("googleplex", "US")
 	assert.Equal(t, "37.4219999", ll.Lat)
 	assert.Equal(t, "-122.0840575", ll.Lng)
@@ -35,7 +35,7 @@ func TestPassGetGeoCodeViaNewGMapInstanceInUS(t *testing.T) {
 // This library will always return the first result even the address is ambiguous.
 func TestPassGetGeoCodeViaNewGMapInstanceInUSWithAmbiguousAddress(t *testing.T) {
 	t.Parallel()
-	g := NewGMapInstance(getTestingApiKey())
+	g := NewGMapInstance(WithGMapKey(getTestingApiKey()))
 	ll, _ := g.GetGeoCode("building", "US")
 	assert.Equal(t, "37.5292712", ll.Lat)
 	assert.Equal(t, "-95.6216764", ll.Lng)
@@ -43,7 +43,15 @@ func TestPassGetGeoCodeViaNewGMapInstanceInUSWithAmbiguousAddress(t *testing.T) 
 
 func TestFailSetGMapKeyViaNewGMapInstance(t *testing.T) {
 	t.Parallel()
-	g := NewGMapInstance(getTestingApiKey())
+	g := NewGMapInstance(WithGMapKey(getTestingApiKey()))
 	err := g.SetGMapKey("")
 	assert.Equal(t, "MISSING_API_KEY", err.Error())
+}
+
+func TestFailGetGeoCodeViaNewGMapInstanceWithInvalidAddres(t *testing.T) {
+	t.Parallel()
+	g := NewGMapInstance(WithGMapKey(getTestingApiKey()))
+	ll, _ := g.GetGeoCode("!@#!@#(**)(!@#(ASDZXCZXC**ASD", "^^^^^^^^^")
+	assert.Equal(t, "", ll.Lat)
+	assert.Equal(t, "", ll.Lng)
 }
