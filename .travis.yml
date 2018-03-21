@@ -1,15 +1,13 @@
 language: go
 
 go:
-  - 1.7
-  - 1.8
-  - 1.9
-  - 1.10
-  - tip
+  - "1.9"
+  - "1.10.x"
+  - master
 
 before_install:
-  - go get github.com/stretchr/testify/assert
-  - go get golang.org/x/tools/cmd/cover
+  - go get -u github.com/golang/dep/cmd/dep
+  - dep ensure -v -vendor-only
 
 script:
   - go test -coverprofile=coverage.txt -covermode=atomic
