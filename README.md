@@ -15,13 +15,13 @@ MAP_KEY=<GOOGLE_MAP_KEY> go test -short .
 ```go
 import geo "github.com/Alphawong/google-geolocate"
 
-g := geo.NewGMapInstance(getTestingApiKey())
+g := geo.NewGMapInstance(WithGMapKey(getTestingApiKey()))
 ll, _ := geo.GetGeoCode("HKIVETY", "HK")
 ```
 
 ## Geocode
 ```go
-g := geo.NewGMapInstance(getTestingApiKey())
+g := geo.NewGMapInstance(WithGMapKey(getTestingApiKey()))
 ll, _ := geo.GetGeoCode("HKIVETY", "HK")
 fmt.Println(ll)
 // Output: {22.342422 114.106242}
