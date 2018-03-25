@@ -19,7 +19,7 @@ func getTestingApiKey() string {
 func TestPassGetGeoCodeViaNewGMapInstance(t *testing.T) {
 	t.Parallel()
 	g := NewGMapInstance(WithGMapKey(getTestingApiKey()))
-	ll, _ := g.GetGeoCode("HKIVETY", "HK")
+	ll, _ := g.GetGeoCode("HKIVE TY", "HK")
 	assert.Equal(t, "22.342422", ll.Lat)
 	assert.Equal(t, "114.1062419", ll.Lng)
 }
