@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/AlphaWong/google-geolocate.svg?branch=master)](https://travis-ci.org/AlphaWong/google-geolocate)
-[![codecov](https://codecov.io/gh/AlphaWong/google-geolocate/branch/master/graph/badge.svg)](https://codecov.io/gh/AlphaWong/google-geolocate)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/89879ec88d0567f002c0/test_coverage)](https://codeclimate.com/github/AlphaWong/google-geolocate/test_coverage)
 
 # About
 Golang client for the Google Maps Geocode API
